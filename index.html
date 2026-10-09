@@ -273,7 +273,7 @@
 
   <script>
     const WHATSAPP_PHONE = "584248869310"; 
-    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwKSh55axPrLQ_YGJ1n6edbc1SAHhBu1rPsfVVArcvIB9t3olDlBop9TFgpDSQdP4fUQQ/exec"; 
+    const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw12s0WqfnPMBCwbumevgK-1ad9JcFQatwjIPrBtxxqFuJBNGp__ABV30KxnUyZ7OiX3g/exec"; 
 
     const SCHEDULE_CONFIG = {
       allowedDays: [1, 2, 3, 4, 5], 
@@ -282,6 +282,7 @@
       customClosedMessage: "Recibimos pedidos de Lunes a Viernes de 8:00 AM a 4:00 PM."
     };
 
+    // Productos de respaldo local (Se actualizarán en vivo desde la hoja)
     let PRODUCTS = [
       { id: 1, category: "galletas", name: "Mini Galletas", description: "Empaque de 100g", price: 3.00, available: true, hidden: false, maxQty: 5, image: "images/mini-galletas.jpg" },
       { id: 2, category: "galletas", name: "Cookie Balls", description: "Empaque de 4 unidades (120g)", price: 3.50, available: true, hidden: true, maxQty: 5, image: "images/cookie-balls.jpg" },
@@ -345,6 +346,28 @@
       
       renderCatalog();
       updateSummary();
+    }
+
+    // Cargar estado de productos desde la Hoja "Productos" de Google Sheets
+    async function syncProductsFromSheets() {
+      try {
+        const response = await fetch(`${GOOGLE_SHEETS_URL}?api=products`);
+        const remoteProducts = await response.json();
+        if (Array.isArray(remoteProducts) && remoteProducts.length > 0) {
+          // Mantener las rutas de las imágenes locales conservadas en la web
+          PRODUCTS = remoteProducts.map(rp => {
+            const localProd = PRODUCTS.find(p => p.id === rp.id) || {};
+            return {
+              ...rp,
+              image: localProd.image || `images/${rp.name.toLowerCase().replace(/\s+/g, '-')}.jpg`,
+              description: localProd.description || ""
+            };
+          });
+        }
+      } catch (e) {
+        console.log("Usando catálogo local de respaldo.");
+      }
+      renderCatalog();
     }
 
     function handleImageError(imgElement, category) {
@@ -609,6 +632,7 @@
 
     checkStoreStatus();
     fetchBCVRate();
+    syncProductsFromSheets();
   </script>
 </body>
 </html>
