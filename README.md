@@ -1,50 +1,43 @@
-# 🥖 SPELTA Caracas - Web App de Pedidos
+# 🍞 SPELTA Caracas — Panadería Artesanal
 
-Catálogo web interactivo y sistema de recepción de pedidos para la panadería artesanal **SPELTA Caracas**. Permite a los clientes armar su pedido, calcular totales en USD y Bolívares (tasa BCV) y registrar la orden simultáneamente en Google Sheets y WhatsApp.
-
----
-
-## 🚀 Funcionalidades Principales
-
-### 🛒 Para los Clientes
-- **Catálogo Dinámico:** Selección de panes y galletas con límites de cantidad por producto.
-- **Cálculo Multimoneda:** Conversión en tiempo real de USD a Bolívares usando la tasa oficial del Banco Central de Venezuela (BCV) mediante la API de `dolarapi.com`.
-- **Control de Horarios:** Deshabilitación automática del botón de pedido fuera de la jornada laboral establecida.
-- **Confirmación Integrada:** Cierre y limpieza automática del carrito/formulario tras abrir el enlace de WhatsApp.
-
-### 🛠️ Gestión del Catálogo (Administración)
-Al ser una aplicación web estática alojada en GitHub Pages, los productos, precios y disponibilidades se gestionan de forma segura directamente desde el repositorio:
-- **Edición de Precios:** Actualización de precios en USD modificando el arreglo `PRODUCTS` en el archivo `index.html`.
-- **Control de Stock:** Marcar un producto como `available: false` para mostrarlo como **Agotado**.
-- **Ocultar / Mostrar:** Configurar la propiedad `hidden: true` para pausar productos del catálogo sin eliminar su código.
+Aplicación web ligera (Single Page Application) diseñada para **SPELTA Caracas**, una micropanadería artesanal. Permite a los clientes explorar el menú de productos, consultar la tasa oficial de cambio del Banco Central de Venezuela (BCV) en tiempo real, armar su pedido y enviarlo directamente vía WhatsApp, registrando automáticamente la transacción en Google Sheets.
 
 ---
 
-## 📊 Integración con Google Sheets
+## 🚀 Características Principales
 
-Los pedidos se registran en Google Sheets mediante un Web App de Google Apps Script antes de redirigir al cliente a WhatsApp.
-
-### Estructura de la Hoja de Cálculo
-El script escribe automáticamente en las siguientes columnas:
-
-| Columna | Nombre | Descripción | Ejemplo |
-| :--- | :--- | :--- | :--- |
-| **A** | ID Pedido | Código correlativo diario `#SP-YYMMDD-XXX` | `#SP-261001-001` |
-| **B** | Fecha / Hora | Estampa de tiempo local | `1/10/2026, 3:54:49 p. m.` |
-| **C** | Cliente | Nombre completo del cliente | `Maria Perez` |
-| **D** | Modalidad Entrega | Acordar punto o retiro | `Punto de Encuentro Acordado` |
-| **E** | Método de Pago | Pago Móvil, Zelle o Efectivo USD | `Efectivo USD` |
-| **F** | Notas | Observaciones o detalles adicionales | `Plaza Altamira 3 PM` |
-| **G** | Productos | Resumen concatenado del pedido | `3x Mini Galletas, 2x Pan Trenzado` |
-| **H** | Total USD | Monto total en dólares | `19.00` |
-| **I** | Tasa BCV | Tasa de cambio aplicada (Bs/$) | `36.50` |
-| **J** | Total Bs | Monto equivalente en Bolívares | `693.50` |
+- **Tasa Oficial BCV en Tiempo Real:** Integración directa con la API pública de `dolarapi.com` para obtener la cotización oficial del día[cite: 2].
+- **Selector de Moneda Dinámico:** Los clientes pueden visualizar los precios en modo Dual (`$ / Bs.`), solo USD (`$`), o solo Bolívares (`Bs.`)[cite: 1].
+- **Gestión de Canasta en Vivo:** Incremento/decremento de cantidades por producto con límites de pedido (`maxQty`) por ítem[cite: 2].
+- **Control de Horario de Atención:** Desactivación automática del botón de pedidos y visualización de un banner interactivo si la tienda está fuera de su horario operacional[cite: 2].
+- **Integración con Google Sheets & WhatsApp:**
+  1. Envía un `POST` en segundo plano a una App de **Google Apps Script** para guardar la orden[cite: 2].
+  2. Genera un ID correlativo de pedido (`#SP-XXXX`)[cite: 2].
+  3. Prepara el resumen del pedido formateado y codificado para abrir directamente la app de WhatsApp[cite: 1, 2].
+- **Fallback Visual para Imágenes:** Muestra placeholders elegantes con íconos temáticos para productos que aún no cuentan con fotografía real.
 
 ---
 
-## 📲 Flujo de Procesamiento del Pedido
+## 🛠️ Tecnologías Utilizadas
 
-1. **Validación:** Se verifica que la tienda esté dentro del horario configurado y que los campos requeridos estén llenos.
-2. **Registro en Sheets:** Se realiza una petición `POST` al endpoint de Google Apps Script para almacenar la fila del pedido y generar el ID correlativo.
-3. **Generación de Enlace WhatsApp:** Se construye el mensaje preformateado incluyendo el ID de la orden.
-4. **Reseteo de Interfaz:** Al hacer clic en *"Abrir WhatsApp"* o cerrar el modal de confirmación, la función `finishOrder()` limpia los campos y vacía el carrito para permitir un nuevo pedido.
+- **HTML5 & CSS3**
+- **Tailwind CSS v3** (vía CDN)[cite: 1, 2]
+- **JavaScript Vanilla** (sin frameworks pesados)[cite: 1, 2]
+- **Google Material Symbols & Fonts** (Newsreader & Plus Jakarta Sans)[cite: 1, 2]
+- **DolarAPI VE** (Servicio para obtener la tasa oficial BCV)[cite: 2]
+- **Google Apps Script** (Procesamiento del webhook para Google Sheets)[cite: 2]
+
+---
+
+## 📁 Estructura del Proyecto
+
+```text
+.
+├── index.html          # Código principal de la aplicación (HTML, CSS y JS unificados)
+├── logo.png            # Logotipo oficial de la marca (Fondo #efe4c8)
+├── README.md           # Documentación del proyecto
+└── images/             # Carpeta contenedora de las fotos reales de los productos
+    ├── mini-galletas.jpg
+    ├── cookie-balls.jpg
+    ├── pan-trenzado.jpg
+    └── ...
