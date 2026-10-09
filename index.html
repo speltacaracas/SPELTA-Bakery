@@ -18,31 +18,25 @@
         extend: {
           colors: {
             "secondary": "#6e5b4d",
-            "flour-linen": "#f7f3ed",
+            "flour-linen": "#efe4c8",
             "on-surface-variant": "#4e4541",
-            "surface": "#fdf9f3",
+            "surface": "#fdfbf7",
             "warm-chestnut": "#6b584a",
             "outline": "#807571",
             "surface-card": "#ffffff",
-            "surface-container": "#f1ede7",
+            "surface-container": "#f5ebd6",
             "toasted-crust-border": "#d6c5ad",
             "cinnamon-accent": "#a25a38",
             "oven-charcoal": "#2c221e",
             "oven-hover": "#42332d",
-            "surface-container-high": "#ebe8e2",
+            "surface-container-high": "#ebe0c9",
             "whatsapp-action-hover": "#20bd5a",
-            "bcv-surface": "#faf6f0",
-            "surface-container-low": "#f7f3ed",
+            "bcv-surface": "#f7efde",
+            "surface-container-low": "#fbf7ee",
             "on-surface": "#1c1c18",
             "golden-wheat": "#efe4c8",
-            "background": "#fdf9f3",
+            "background": "#efe4c8",
             "whatsapp-action": "#25d366"
-          },
-          borderRadius: {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
-            "full": "9999px"
           },
           fontFamily: {
             "headline": ["Newsreader", "serif"],
@@ -55,19 +49,19 @@
 </head>
 <body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col">
 
-  <!-- Encabezado con Logo y Tasa en vivo -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl border-b border-toasted-crust-border/40 shadow-xs">
+  <!-- Encabezado con Logo corregido y Fondo #efe4c8 -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#efe4c8]/95 backdrop-blur-md border-b border-toasted-crust-border/60 shadow-xs">
     <div class="h-20 max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <img id="store-logo" alt="SPELTA Caracas Logo" class="h-10 w-auto object-contain" src="logo.png" onerror="this.style.display='none'">
+        <img id="store-logo" alt="SPELTA Caracas Logo" class="h-14 sm:h-16 w-auto object-contain" src="logo.png" onerror="this.style.display='none'">
         <div class="flex flex-col">
-          <span class="font-headline text-xl font-bold tracking-tight text-oven-charcoal leading-none">SPELTA</span>
-          <span class="text-[10px] tracking-wider uppercase text-secondary font-semibold">Caracas · Panadería Artesanal</span>
+          <span class="font-headline text-xl sm:text-2xl font-bold tracking-tight text-oven-charcoal leading-none">SPELTA</span>
+          <span class="text-[10px] tracking-wider uppercase text-secondary font-bold mt-0.5">Caracas · Panadería Artesanal</span>
         </div>
       </div>
 
       <div class="flex items-center gap-4">
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-bcv-surface border border-toasted-crust-border/50">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-bcv-surface border border-toasted-crust-border/80 shadow-2xs">
           <span class="material-symbols-outlined text-warm-chestnut text-[20px]">currency_exchange</span>
           <div class="flex flex-col text-right">
             <span class="text-[9px] uppercase font-bold text-warm-chestnut leading-tight">BCV Hoy</span>
@@ -78,27 +72,27 @@
     </div>
   </header>
 
-  <!-- Banner de Horario cuando está cerrado -->
+  <!-- Banner de Horario de Atencion -->
   <div id="schedule-banner" class="hidden pt-20 bg-amber-100 border-b border-amber-300 text-amber-900 text-xs text-center py-2.5 px-4 font-bold"></div>
 
   <main class="w-full pt-24 bg-background flex-1 pb-16">
     <div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-4">
       
-      <!-- Hero Contextual Header -->
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-surface-container via-surface-container-low to-golden-wheat/40 p-6 md:p-8 shadow-xs mb-6">
+      <!-- Banner Hero Contextual -->
+      <div class="relative overflow-hidden rounded-2xl bg-surface-container/70 p-6 md:p-8 border border-toasted-crust-border/80 shadow-xs mb-6">
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-10">
           <div class="space-y-2 max-w-2xl">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface shadow-xs text-warm-chestnut">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface shadow-2xs text-warm-chestnut border border-toasted-crust-border/50">
               <span class="material-symbols-outlined text-[16px] text-cinnamon-accent">bakery_dining</span>
               <span class="text-[11px] font-bold uppercase tracking-wider">Horneados en Lotes Limitados</span>
             </div>
             <h1 class="font-headline text-2xl md:text-3xl font-bold text-oven-charcoal tracking-tight">Panadería Artesanal en Caracas</h1>
             <p class="text-sm text-on-surface-variant">Selecciona tus panes y galletas preferidos para coordinar tu entrega directa vía WhatsApp.</p>
           </div>
-          <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface shadow-xs border border-toasted-crust-border/30">
-            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></div>
+          <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface shadow-2xs border border-toasted-crust-border/50">
+            <div class="w-3 h-3 rounded-full bg-emerald-600 animate-ping"></div>
             <div>
-              <span class="text-[10px] text-emerald-700 uppercase font-bold block">Horario de Pedidos</span>
+              <span class="text-[10px] text-emerald-800 uppercase font-bold block">Horario de Pedidos</span>
               <span class="text-xs text-oven-charcoal font-semibold">Lunes a Viernes · 8:00 AM - 4:00 PM</span>
             </div>
           </div>
@@ -106,9 +100,9 @@
       </div>
 
       <!-- Barra de Tasa BCV y Switcher de Moneda -->
-      <div class="bg-surface-container-low rounded-xl p-4 shadow-xs mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-toasted-crust-border/40">
+      <div class="bg-surface-container-low rounded-xl p-4 shadow-2xs mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-toasted-crust-border/80">
         <div class="flex items-center gap-3">
-          <div class="p-2 bg-golden-wheat/70 rounded-lg text-warm-chestnut flex items-center justify-center">
+          <div class="p-2 bg-golden-wheat rounded-lg text-warm-chestnut border border-toasted-crust-border flex items-center justify-center">
             <span class="material-symbols-outlined text-[24px]">account_balance</span>
           </div>
           <div>
@@ -124,7 +118,7 @@
         </div>
 
         <!-- Selector de Moneda -->
-        <div class="flex items-center gap-1 bg-surface p-1 rounded-xl shadow-xs self-stretch sm:self-auto justify-center border border-toasted-crust-border/30">
+        <div class="flex items-center gap-1 bg-surface p-1 rounded-xl shadow-2xs self-stretch sm:self-auto justify-center border border-toasted-crust-border/50">
           <span class="text-xs text-on-surface-variant px-2 hidden md:inline">Precios en:</span>
           <button class="px-3 py-1.5 rounded-lg text-xs transition-all bg-oven-charcoal text-white font-semibold shadow-xs" id="curr-both" onclick="setCurrencyMode('both')">Dual ($ / Bs.)</button>
           <button class="px-3 py-1.5 rounded-lg text-xs transition-all text-on-surface-variant hover:text-oven-charcoal font-semibold" id="curr-usd" onclick="setCurrencyMode('usd')">Solo USD ($)</button>
@@ -132,15 +126,15 @@
         </div>
       </div>
 
-      <!-- Grid Principal a 2 Columnas -->
+      <!-- Layout Principal a 2 Columnas -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Catálogo de Productos (Izquierda) -->
+        <!-- Catálogo de Productos -->
         <div class="lg:col-span-7 xl:col-span-8 space-y-8">
           
-          <!-- Galletas -->
+          <!-- Sección Galletas -->
           <section class="space-y-4">
-            <div class="flex items-baseline justify-between border-b border-toasted-crust-border/60 pb-2">
+            <div class="flex items-baseline justify-between border-b border-toasted-crust-border pb-2">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-cinnamon-accent text-[24px]">cookie</span>
                 <h2 class="font-headline text-2xl font-bold text-oven-charcoal">GALLETAS</h2>
@@ -149,9 +143,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="catalog-galletas"></div>
           </section>
 
-          <!-- Panes -->
+          <!-- Sección Panes -->
           <section class="space-y-4">
-            <div class="flex items-baseline justify-between border-b border-toasted-crust-border/60 pb-2">
+            <div class="flex items-baseline justify-between border-b border-toasted-crust-border pb-2">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-warm-chestnut text-[24px]">grain</span>
                 <h2 class="font-headline text-2xl font-bold text-oven-charcoal">PANES</h2>
@@ -162,16 +156,16 @@
 
         </div>
 
-        <!-- Canasta y Datos de Entrega (Derecha Sticky) -->
+        <!-- Canasta Lateral (Sticky) -->
         <div class="lg:col-span-5 xl:col-span-4 sticky top-24 self-start space-y-6">
-          <div class="bg-surface rounded-2xl p-6 shadow-md border border-toasted-crust-border/60 space-y-6">
+          <div class="bg-surface rounded-2xl p-6 shadow-md border border-toasted-crust-border space-y-6">
             
-            <div class="flex items-center justify-between pb-2 border-b border-toasted-crust-border/40">
+            <div class="flex items-center justify-between pb-2 border-b border-toasted-crust-border/60">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-warm-chestnut text-[24px]">shopping_bag</span>
                 <h2 class="font-headline text-xl font-bold text-oven-charcoal">Tu Canasta</h2>
               </div>
-              <span class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container-high text-oven-charcoal font-semibold" id="cart-item-count">0 items</span>
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-surface-container-high text-oven-charcoal font-semibold border border-toasted-crust-border/40" id="cart-item-count">0 items</span>
             </div>
 
             <!-- Resumen Dinámico -->
@@ -180,7 +174,7 @@
             </div>
 
             <!-- Desglose de Totales -->
-            <div class="p-4 rounded-xl bg-surface-container-low space-y-2 border border-toasted-crust-border/30">
+            <div class="p-4 rounded-xl bg-surface-container-low space-y-2 border border-toasted-crust-border/60">
               <div class="flex justify-between items-baseline pt-1">
                 <div class="flex flex-col">
                   <span class="text-[10px] uppercase text-warm-chestnut font-bold">Total a Pagar</span>
@@ -190,13 +184,13 @@
               </div>
             </div>
 
-            <!-- Formulario de Datos -->
+            <!-- Datos del Cliente -->
             <div class="space-y-4 pt-2">
               <div>
                 <label class="text-xs font-bold text-oven-charcoal flex items-center justify-between mb-1" for="cust-name">
                   <span>Nombre Completo *</span>
                 </label>
-                <input class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-oven-charcoal border border-toasted-crust-border/50 text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="cust-name" placeholder="Ej. María Pérez" type="text">
+                <input class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="cust-name" placeholder="Ej. María Pérez" type="text">
               </div>
 
               <div>
@@ -204,7 +198,7 @@
                   <span class="material-symbols-outlined text-[16px] text-warm-chestnut">location_on</span>
                   <span>Modalidad de Entrega</span>
                 </label>
-                <select class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-oven-charcoal border border-toasted-crust-border/50 text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="delivery-method">
+                <select class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="delivery-method">
                   <option value="Punto de Encuentro Acordado">Acordar Punto de Encuentro</option>
                   <option value="Retiro Acordado">Retiro Previa Cita</option>
                 </select>
@@ -215,7 +209,7 @@
                   <span class="material-symbols-outlined text-[16px] text-warm-chestnut">payments</span>
                   <span>Método de Pago</span>
                 </label>
-                <select class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-oven-charcoal border border-toasted-crust-border/50 text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="payment-method">
+                <select class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="payment-method">
                   <option value="Pago Móvil">Pago Móvil</option>
                   <option value="Zelle">Zelle</option>
                   <option value="Efectivo USD">Efectivo USD</option>
@@ -226,11 +220,11 @@
                 <label class="text-xs font-bold text-oven-charcoal flex items-center justify-between mb-1" for="cust-notes">
                   <span>Notas / Punto de Encuentro</span>
                 </label>
-                <textarea class="w-full px-3 py-2 rounded-xl bg-surface-container-lowest text-oven-charcoal border border-toasted-crust-border/50 text-xs focus:outline-none focus:border-warm-chestnut transition-all resize-none" id="cust-notes" placeholder="Ej. Nos vemos en la plaza a las 3 PM..." rows="2"></textarea>
+                <textarea class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut transition-all resize-none" id="cust-notes" placeholder="Ej. Nos vemos en la plaza a las 3 PM..." rows="2"></textarea>
               </div>
             </div>
 
-            <!-- Botón de Envío -->
+            <!-- Botón WhatsApp -->
             <button class="w-full py-3.5 px-4 rounded-xl bg-whatsapp-action hover:bg-whatsapp-action-hover text-white flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99] text-xs font-bold" id="submit-btn" onclick="processOrder()">
               <span class="material-symbols-outlined text-[18px]">chat</span>
               <span>Enviar Pedido por WhatsApp</span>
@@ -259,7 +253,7 @@
         <p class="text-xs text-warm-chestnut">SPELTA Caracas</p>
       </div>
 
-      <div class="p-3 rounded-xl bg-surface-container-low text-center space-y-1 border border-toasted-crust-border/40">
+      <div class="p-3 rounded-xl bg-surface-container-low text-center space-y-1 border border-toasted-crust-border">
         <span class="text-[10px] text-on-surface-variant uppercase tracking-wider block font-bold">ID de Pedido</span>
         <div class="text-lg font-bold text-oven-charcoal font-mono tracking-widest" id="success-order-id">#SP-000</div>
       </div>
@@ -286,22 +280,22 @@
     const SCHEDULE_CONFIG = {
       allowedDays: [1, 2, 3, 4, 5], 
       openHour: 8,                  
-      closeHour: 23,                
+      closeHour: 16,                
       customClosedMessage: "Recibimos pedidos de Lunes a Viernes de 8:00 AM a 4:00 PM."
     };
 
-    // Lista de Productos Original
+    // Lista de Productos con campo description (peso / unidades)
     let PRODUCTS = [
-      { id: 1, category: "galletas", name: "Mini Galletas", price: 3.00, available: true, hidden: false, maxQty: 5, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuByvhnwEO5GPiXRzQU2MEP-i_ut6IWFyK_K54k7Y1vb5Tl_R0ksT2qzuTXXCVRvakPPeMamX2OZF9c3SNIoivqbmDxJazOgJARvOY1IkIwTc7lTatG4zujDx9Y5KnurRGA--kcjebUIdD74Eh5COTpoRcOKQRn7HQ9yLWxlJ-8bwHE6kQqrM7EvMPDHeBylNT9Mlbo9LPNpZABXCveYJeHNkMhKgoobvqKZBr75Bog" },
-      { id: 2, category: "galletas", name: "Cookie Balls", price: 3.50, available: true, hidden: true, maxQty: 5, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAieosb5zb3xOJgGdF4fIbItyS-WTYM5hwMJPGk_QLYMGWDksFLTZ85ssewcHkMaJ7E_QgALW3OB735m8qgGUKZ8lweFXtpaKsBSW7lSslrsKdfHJPkEvuljuR6cuhboKuN0ZgxXvR3O6eWhSgvj8NEx2Z3DSAhFooza1UclIOjHePkXO3t1bRM7mQmTHp6nbVdX8YAvv1SNfCrBOBkVzAne83JSIiRW3wY5BwylhI" },
-      { id: 3, category: "galletas", name: "Cookie Bar", price: 4.00, available: true, hidden: true, maxQty: 5, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuARlWvgqoaWMSBJVH3ltUCj6ulye5PaifrFzRucMvZsSow-pprMhaBATWIqwbNaMPYU4N-2i56aW-V7J_eNK4ANmHgOxCyYKCqj3aTq_7dlpuEgShSl7VQGkNmETn-8j0P8lhGQUmRSAxD0iBd4M4VlNP4B1EMT-JP1UP7blo-X60-i5t47gn1QuERk-7DENzXt9oXSoVOQzIpqUHESuCWrBlHNDt3325I5u3AaX88" },
-      { id: 4, category: "panes", name: "Pan Trenzado Bicolor", price: 5.00, available: true, hidden: false, maxQty: 3, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDZQUPxqHEG9li6qL7rSo2DOcIk-nFYukSB5uv2-fFsWosHOnsUIfPmfIg3fQEOJ8wxmhjzbK4c_g6BYRhoSkeJ03hPx2sVrzAJet0gYzMiV8MqPUzPplnlPwH0BztE_ihYD1F0LANzGyJ0LV8Mz3MgQ1Rdy77-50HY6fcauJYsxki_16xLMbLNF5-cbpe81wCeUsmysyWL1rEv26aKpamaXtal7yQG8tnV8EFphE" },
-      { id: 5, category: "panes", name: "Pan de Chocolate", price: 5.50, available: true, hidden: false, maxQty: 3, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBIAjcxxa5v41x5s-BVVG5PNPtknwuzMyJGJNo39TznZ6wpCQyLQAAg0Gv3gUZ4z7pH0mMrwRp63R7ASDiz1LGTrDwfdvbxyySHV92lAti-SJmAAwxEKe0xzItnVO7oUqQea511_X-78pAQ_Su_gAfmnOVdMYzUSwPUPsSQdKggGbcBlg01S14_m24R6X3yb7rDB8h344z5li0PAklyF6X7ILtmoXIgqjLQ7SYu4mc" },
-      { id: 6, category: "panes", name: "Rollos de Canela", price: 3.00, available: true, hidden: false, maxQty: 6, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdr7yPdmFGq-r7LcJfQ3XPykVd5FZRo-s5HDgxVytxgbb9uehgKUK4LKtlu_CLlXV2tAoSwgl-2GOBqbd_HPnhuzl-RLvj0Nyj02i6sIOk1SJKgX7arHrSrQZuy_3oxaNxB2JbDhwlp7V2WMdng7wogr6hoh7M-xLybcxUZEovKiwEgj8FTr1OhhW1iBYGmczOkxlWYpAOg0FmA_cLPYdyGl8Dz6nCZ6MPpIOy2VA" },
-      { id: 7, category: "panes", name: "Rollos de Chocolate", price: 3.50, available: true, hidden: false, maxQty: 6, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDXGvzNbIqbzsDPV5Zz88CXUyT3ffz_bBCAs8cKrnDtWGxXQ5l758BifMbTh2UJ9Vj7uUcR9D9WDvRS3wzVQ5OChqk1AO2Wt11kDWqkTgyMUm-w9pYSxW3O3UFRaahcdrI3wFXIwS6sY-au36QBxUg5LR2pkV-j2HBQkUnsxKyhCMJKAd04ZqI0DPxDkNZbTvbtr9G1DcYX1tn2wwhVLmBFIhsUO9Kkuib1vfrhUME" },
-      { id: 8, category: "panes", name: "Pan Brioche", price: 4.50, available: true, hidden: false, maxQty: 2, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCdsjo-5mFxHiW6J9neLBXVIMlQA7wxlUSR8T057NUtr4Mr2aN1EkwKsDGrtKimK9eSRPu2iYUmKMnvHHZOl7t2XVJJ05PsXlouqTy985KFjiuuJVbEWBpj68sBKaFyqv6oxMZMmobibVhPbt1u8vQZhT0pdLfdV3C8VNMqG37UjGGQi5VQvDfRZlC9WHDduhgGe0u9iRXWyKoL3emZk1BVlmSlhIxZaBukhr1KWoo" },
-      { id: 9, category: "panes", name: "Bagels", price: 2.50, available: true, hidden: false, maxQty: 10, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuArbT_j-xV5wvJ5qJBWO7q3C1LWK_bE_mBtQ7OlljjJCbvoLQqbPdxhVV6YaK0IpbCqdv01BrZ1nFNJ4p5e4G19LUZYqJB-F6A5NQnlW71Ez4hKYCOs7XgnER_nNN8S_N0aKmPvHEDZyLv2bYxXcWxLJzZCyf1LLG9lsdZBnhXHqZYp4szN2x7sJcr8lO9DVPOjo2Fo1kQgeswi2uolNwOrFWRi7rlZC7uXt2EQWuM" },
-      { id: 10, category: "panes", name: "Pan de Orégano", price: 4.00, available: true, hidden: false, maxQty: 3, image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOY9995UVi3Yk5uBxg6orasZGYg9_5kfAbV_BjFLvhc7cmFtoBoGI19XvYLPppawshlc5H_BQpEeu6cVB8-FoT3vAkpBlPG_wGlveq-CV-4gCi9uccGdd7AkEZmWpQ1T-OHyeV-k4etfH2Df7RAGCgD3QitPXd6MxUpifoB7-lYZjKGcs0C5UXvjYmVBFnAJqt5GUGFM2eFDrdJA7P19v-c0PSIzkJQs7WbDuhZ7Y" }
+      { id: 1, category: "galletas", name: "Mini Galletas", description: "Empaque de 100g", price: 3.00, available: true, hidden: false, maxQty: 5, image: "images/mini-galletas.jpg" },
+      { id: 2, category: "galletas", name: "Cookie Balls", description: "Empaque de 4 unidades (120g)", price: 3.50, available: true, hidden: true, maxQty: 5, image: "images/cookie-balls.jpg" },
+      { id: 3, category: "galletas", name: "Cookie Bar", description: "1 Porción individual (150g)", price: 4.00, available: true, hidden: true, maxQty: 5, image: "images/cookie-bar.jpg" },
+      { id: 4, category: "panes", name: "Pan Trenzado Bicolor", description: "1 unidad de 950g aprox.", price: 5.00, available: true, hidden: false, maxQty: 3, image: "images/pan-trenzado.jpg" },
+      { id: 5, category: "panes", name: "Pan de Chocolate", description: "Hogaza artesanal de 800g aprox.", price: 5.50, available: true, hidden: false, maxQty: 3, image: "images/pan-chocolate.jpg" },
+      { id: 6, category: "panes", name: "Rollos de Canela", description: "Pack de 2 unidades (200g)", price: 3.00, available: true, hidden: false, maxQty: 6, image: "images/rollos-canela.jpg" },
+      { id: 7, category: "panes", name: "Rollos de Chocolate", description: "Pack de 2 unidades (220g)", price: 3.50, available: true, hidden: false, maxQty: 6, image: "images/rollos-chocolate.jpg" },
+      { id: 8, category: "panes", name: "Pan Brioche", description: "1 Molde artesanal de 600g", price: 4.50, available: true, hidden: false, maxQty: 2, image: "images/pan-brioche.jpg" },
+      { id: 9, category: "panes", name: "Bagels", description: "4 unidades de 80g c/u (320g total)", price: 2.50, available: true, hidden: false, maxQty: 10, image: "images/bagels.jpg" },
+      { id: 10, category: "panes", name: "Pan de Orégano", description: "1 Hogaza rústica de 750g", price: 4.00, available: true, hidden: false, maxQty: 3, image: "images/pan-oregano.jpg" }
     ];
 
     const cart = {};
@@ -333,7 +327,7 @@
       return isOpen;
     }
 
-    // Consulta Tasa BCV en Tiempo Real
+    // Consulta Tasa BCV
     async function fetchBCVRate() {
       const statusEl = document.getElementById("bcv-status");
       const displayTopEl = document.getElementById("bcv-rate-display-top");
@@ -358,7 +352,19 @@
       updateSummary();
     }
 
-    // Render del Catálogo Estilizado
+    // Manejo de imágen faltante con placeholder elegante
+    function handleImageError(imgElement, category) {
+      const icon = category === 'galletas' ? 'cookie' : 'bakery_dining';
+      const parent = imgElement.parentElement;
+      parent.innerHTML = `
+        <div class="w-full h-full bg-surface-container/60 flex flex-col items-center justify-center text-warm-chestnut/60 p-4 text-center">
+          <span class="material-symbols-outlined text-[32px]">${icon}</span>
+          <span class="text-[10px] font-semibold mt-1">Próximamente foto real</span>
+        </div>
+      `;
+    }
+
+    // Render del Catálogo con Descripción de Peso/Presentación
     function renderCatalog() {
       const galletasContainer = document.getElementById("catalog-galletas");
       const panesContainer = document.getElementById("catalog-panes");
@@ -369,12 +375,13 @@
         if (!p.available) {
           return `
             <div class="bg-surface rounded-2xl overflow-hidden border border-toasted-crust-border/40 opacity-60 flex flex-col justify-between">
-              <div class="relative h-36 w-full bg-surface-container">
-                <img class="w-full h-full object-cover grayscale" src="${p.image}">
-                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-gray-500 text-white font-bold text-[10px]">Agotado</span>
+              <div class="relative h-32 w-full bg-surface-container">
+                <img class="w-full h-full object-cover" src="${p.image}" onerror="handleImageError(this, '${p.category}')">
+                <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-gray-600 text-white font-bold text-[10px]">Agotado</span>
               </div>
-              <div class="p-4 flex-1 flex flex-col justify-between">
+              <div class="p-4 flex-1 flex flex-col justify-between space-y-1">
                 <h3 class="font-headline text-lg font-bold text-gray-500 line-through">${p.name}</h3>
+                <p class="text-xs text-gray-400">${p.description}</p>
                 <p class="text-xs font-semibold text-gray-400 mt-1">$${p.price.toFixed(2)}</p>
               </div>
             </div>
@@ -382,21 +389,22 @@
         }
 
         return `
-          <div class="bg-surface rounded-2xl overflow-hidden border border-toasted-crust-border/50 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="relative h-36 w-full overflow-hidden bg-surface-container">
-              <img class="w-full h-full object-cover" src="${p.image}">
+          <div class="bg-surface rounded-2xl overflow-hidden border border-toasted-crust-border shadow-2xs flex flex-col justify-between hover:shadow-xs transition-shadow">
+            <div class="relative h-32 w-full overflow-hidden bg-surface-container">
+              <img class="w-full h-full object-cover" src="${p.image}" onerror="handleImageError(this, '${p.category}')">
             </div>
             <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
               <div>
                 <h3 class="font-headline text-lg font-bold text-oven-charcoal leading-snug">${p.name}</h3>
-                <div class="mt-1 flex flex-col">
+                <p class="text-xs text-warm-chestnut font-medium mt-0.5">${p.description}</p>
+                <div class="mt-2 flex flex-col">
                   <span class="font-bold text-oven-charcoal price-usd">$${p.price.toFixed(2)}</span>
                   <span class="text-xs text-on-surface-variant price-ves">${priceBs} Bs.</span>
                 </div>
               </div>
               <div class="pt-1 flex items-center justify-between">
                 <span class="text-[10px] text-warm-chestnut font-semibold">Máx: ${p.maxQty} un.</span>
-                <div class="flex items-center bg-surface-container-low rounded-xl p-1 border border-toasted-crust-border/40">
+                <div class="flex items-center bg-surface-container-low rounded-xl p-1 border border-toasted-crust-border">
                   <button onclick="updateQty(${p.id}, -1)" class="w-7 h-7 rounded-lg bg-surface flex items-center justify-center text-oven-charcoal font-bold hover:bg-surface-container-high transition-colors active:scale-95 text-xs">-</button>
                   <span id="qty-${p.id}" class="w-7 text-center font-bold text-xs text-oven-charcoal font-mono">${cart[p.id] || 0}</span>
                   <button onclick="updateQty(${p.id}, 1)" class="w-7 h-7 rounded-lg bg-oven-charcoal flex items-center justify-center text-white font-bold hover:bg-oven-hover transition-colors active:scale-95 text-xs">+</button>
@@ -448,7 +456,7 @@
         totalCount += qty;
         
         itemsHtml.push(`
-          <div class="flex justify-between items-center p-2 rounded-lg bg-surface-container-low text-xs border border-toasted-crust-border/20">
+          <div class="flex justify-between items-center p-2 rounded-lg bg-surface-container-low text-xs border border-toasted-crust-border/40">
             <div>
               <p class="font-bold text-oven-charcoal">${prod.name}</p>
               <p class="text-[10px] text-on-surface-variant">${qty}x $${prod.price.toFixed(2)}</p>
@@ -499,7 +507,7 @@
       });
     }
 
-    // Envío y Conexión con Google Sheets
+    // Envío y Registro en Google Sheets
     async function processOrder() {
       if (!checkStoreStatus()) {
         alert(`Lo sentimos, la tienda está cerrada en este momento.\n\n${SCHEDULE_CONFIG.customClosedMessage}`);
