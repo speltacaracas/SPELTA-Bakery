@@ -49,7 +49,7 @@
 </head>
 <body class="bg-background font-body text-on-surface antialiased min-h-screen flex flex-col">
 
-  <!-- Cabecera exclusivamente con fondo #efe4c8 para combinar con el Logo -->
+  <!-- Cabecera -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-[#efe4c8] border-b border-toasted-crust-border/80 shadow-xs">
     <div class="h-20 max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
       <div class="flex items-center gap-3">
@@ -272,11 +272,12 @@
   </div>
 
   <script>
-  // ==========================================
-  // CONFIGURACIÓN PRINCIPAL Y SEGURIDAD
-  // ==========================================
+    // ==========================================
+    // CONFIGURACIÓN Y SEGURIDAD REFORZADA
+    // ==========================================
     const WHATSAPP_PHONE = "584248869310"; 
     const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw12s0WqfnPMBCwbumevgK-1ad9JcFQatwjIPrBtxxqFuJBNGp__ABV30KxnUyZ7OiX3g/exec"; 
+    const APP_SECRET_TOKEN = "SPELTA_SECURE_TOKEN_2026_XYZ"; // Token compartido con el backend
 
     const SCHEDULE_CONFIG = {
       allowedDays: [1, 2, 3, 4, 5], 
@@ -285,13 +286,17 @@
       customClosedMessage: "Recibimos pedidos de Lunes a Viernes de 8:00 AM a 4:00 PM."
     };
 
-    // Función auxiliar para sanitizar entradas de texto y evitar inyecciones HTML/XSS
+    // Sanitización robusta contra XSS e Inyección de Fórmulas
     function sanitizeInput(str) {
       if (!str) return "";
-      return str.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+      let clean = str.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+      // Neutralizar comandos de fórmulas de hojas de cálculo (=, +, -, @)
+      if (/^[=+\-@\t\r]/.test(clean)) {
+        clean = "'" + clean;
+      }
+      return clean;
     }
 
-    // Productos de respaldo local (Se actualizarán en vivo desde la hoja)
     let PRODUCTS = [
       { id: 1, category: "galletas", name: "Mini Galletas", description: "Empaque de 100g", price: 3.00, available: true, hidden: false, maxQty: 5, image: "images/mini-galletas.jpg" },
       { id: 2, category: "galletas", name: "Cookie Balls", description: "Empaque de 4 unidades (120g)", price: 3.50, available: true, hidden: true, maxQty: 5, image: "images/cookie-balls.jpg" },
@@ -362,7 +367,6 @@
       updateSummary();
     }
 
-    // Cargar estado de productos desde la Hoja "Productos" de Google Sheets
     async function syncProductsFromSheets() {
       try {
         const response = await fetch(`${GOOGLE_SHEETS_URL}?api=products`);
@@ -541,7 +545,6 @@
         return;
       }
 
-      // Aplicar sanitización a los campos de texto del cliente
       const name = sanitizeInput(document.getElementById("cust-name").value);
       if (!name) return alert("Por favor, ingresa tu nombre completo.");
 
@@ -574,6 +577,7 @@
       const currentDateStr = new Date().toLocaleString("es-VE");
 
       const payload = {
+        secretToken: APP_SECRET_TOKEN,
         date: currentDateStr,
         customerName: name,
         deliveryMethod: delivery,
