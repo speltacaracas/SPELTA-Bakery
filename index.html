@@ -318,6 +318,7 @@
       
       const btn = document.getElementById("submit-btn");
       const banner = document.getElementById("schedule-banner");
+      const mainContent = document.querySelector("main");
 
       if (!isOpen && btn) {
         btn.disabled = true;
@@ -328,6 +329,10 @@
         if (banner) {
           banner.classList.remove("hidden");
           banner.innerText = `🔴 Fuera de Horario: ${SCHEDULE_CONFIG.customClosedMessage}`;
+          if (mainContent) {
+            mainContent.classList.remove("pt-24");
+            mainContent.classList.add("pt-6");
+          }
         }
       }
       return isOpen;
