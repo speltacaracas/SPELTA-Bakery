@@ -273,7 +273,7 @@
 
   <script>
   // ==========================================
-  // CONFIGURACIÓN PRINCIPAL
+  // CONFIGURACIÓN PRINCIPAL Y SEGURIDAD
   // ==========================================
     const WHATSAPP_PHONE = "584248869310"; 
     const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw12s0WqfnPMBCwbumevgK-1ad9JcFQatwjIPrBtxxqFuJBNGp__ABV30KxnUyZ7OiX3g/exec"; 
@@ -284,6 +284,12 @@
       closeHour: 23,                
       customClosedMessage: "Recibimos pedidos de Lunes a Viernes de 8:00 AM a 4:00 PM."
     };
+
+    // Función auxiliar para sanitizar entradas de texto y evitar inyecciones HTML/XSS
+    function sanitizeInput(str) {
+      if (!str) return "";
+      return str.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
+    }
 
     // Productos de respaldo local (Se actualizarán en vivo desde la hoja)
     let PRODUCTS = [
@@ -357,7 +363,6 @@
         const response = await fetch(`${GOOGLE_SHEETS_URL}?api=products`);
         const remoteProducts = await response.json();
         if (Array.isArray(remoteProducts) && remoteProducts.length > 0) {
-          // Mantener las rutas de las imágenes locales conservadas en la web
           PRODUCTS = remoteProducts.map(rp => {
             const localProd = PRODUCTS.find(p => p.id === rp.id) || {};
             return {
@@ -531,7 +536,8 @@
         return;
       }
 
-      const name = document.getElementById("cust-name").value.trim();
+      // Aplicar sanitización a los campos de texto del cliente
+      const name = sanitizeInput(document.getElementById("cust-name").value);
       if (!name) return alert("Por favor, ingresa tu nombre completo.");
 
       const itemKeys = Object.keys(cart);
@@ -543,7 +549,7 @@
 
       const delivery = document.getElementById("delivery-method").value;
       const payment = document.getElementById("payment-method").value;
-      const notes = document.getElementById("cust-notes").value.trim();
+      const notes = sanitizeInput(document.getElementById("cust-notes").value);
 
       let totalUSD = 0;
       let orderListText = "";
