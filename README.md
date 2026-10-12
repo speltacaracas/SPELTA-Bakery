@@ -1,6 +1,6 @@
 # 🍞 SPELTA Caracas — Panadería Artesanal & Panel Operativo
 
-Sistema web integral compuesto por la tienda pública en línea (**Single Page Application**) y el **Panel de Control Operativo del Obrador**, diseñado para **SPELTA Caracas**. Permite a los clientes armar pedidos con cálculo dinámico en divisas/bolívares y al equipo de producción gestionar pedidos en vivo, consolidar lotes de horneada y controlar el stock en tiempo real desde Google Sheets[cite: 4].
+Sistema web integral compuesto por la tienda pública en línea (**Single Page Application**) y el **Panel de Control Operativo del Obrador**, diseñado para **SPELTA Caracas**. Permite a los clientes armar pedidos con cálculo dinámico en divisas/bolívares y al equipo de producción gestionar pedidos en vivo, consolidar lotes de horneada, controlar el stock en tiempo real y analizar el rendimiento financiero del negocio[cite: 1, 2, 4].
 
 ---
 
@@ -11,13 +11,15 @@ Sistema web integral compuesto por la tienda pública en línea (**Single Page A
 - **Selector de Moneda Dinámico:** Visualización de precios en modo Dual (`$ / Bs.`), solo USD (`$`), o solo Bolívares (`Bs.`)[cite: 2, 4].
 - **Sincronización de Catálogo desde la Nube:** Descarga automática de disponibilidad y límites de producción (`maxQty`) desde Google Sheets al cargar[cite: 2, 4].
 - **Control Automático de Horario:** Bloqueo del botón de pedidos fuera del horario operacional (Lunes a Viernes de 8:00 AM a 4:00 PM)[cite: 2, 4].
-- **Checkout Seguro & Registro:** Envío autenticado de la orden en segundo plano a Google Apps Script mediante un token secreto compartido, generación de ID correlativo (`#SP-YYMMDD-XXX`) y redirección formateada hacia WhatsApp[cite: 2, 3, 4].
+- **Checkout Seguro & Registro:** Envío autenticado de la orden en segundo plano a Google Apps Script mediante un token compartido, generación de ID correlativo y redirección formateada hacia WhatsApp[cite: 2, 3, 4].
 
 ### 🥖 Panel de Control Operativo / Admin (`admin.html`)
 - **Autenticación Basada en Servidor:** Validación segura del PIN de acceso gestionada en el backend de Google Apps Script mediante sesiones efímeras generadas con `CacheService`[cite: 1, 2, 4].
 - **Plan de Horneado Consolidado:** Suma automática y en tiempo real de todas las unidades por producto pendientes por producir para los pedidos activos[cite: 1, 4].
 - **Cola de Pedidos en Vivo:** Visualización detallada de pedidos con filtros por estado (*Por Confirmar*, *En Horno*, *Listo*, *Entregado*), fecha, cliente y métricas financieras acumuladas ($ / Bs.)[cite: 1, 4].
 - **Control de Disponibilidad (Stock Toggles):** Interruptores en vivo para pausar o activar productos; si un producto se pausa en el admin, se muestra inmediatamente como "Agotado" en la tienda pública[cite: 1, 4].
+- **Finanzas y Analítica de Negocio:** Módulo integrado de inteligencia financiera que calcula ingresos totales multidivisa, ticket promedio, distribución porcentual de métodos de pago (Pago Móvil, Zinli, Efectivo USD) y un ranking detallado de los productos más vendidos[cite: 1, 4].
+- **Filtros de Fecha Dinámicos:** Selector temporal en el panel de analíticas para consultar el rendimiento del obrador por **Hoy**, **Esta Semana**, **Este Mes** o **Todo el Histórico**[cite: 1, 4].
 
 ### 🛡️ Seguridad y Robustez en el Backend (`Código.gs`)
 - **Protección de Credenciales:** El PIN de administración ya no se almacena en código abierto, sino de forma segura mediante las Propiedades del Script (`PropertiesService`)[cite: 2].
@@ -42,7 +44,7 @@ Sistema web integral compuesto por la tienda pública en línea (**Single Page A
 ```text
 .
 ├── index.html          # Tienda pública para clientes (Catálogo, Canasta y Checkout seguro)
-├── admin.html          # Panel de control del Obrador (Gestión de pedidos, Plan de Horneada y Stock validado)
+├── admin.html          # Panel de control del Obrador (Gestión de pedidos, Plan de Horneado, Stock y Analítica Financiera)
 ├── Código.gs           # Backend en Google Apps Script (Servidor web, API REST, Auth, Sanitización y Sheets)
 ├── logo.png            # Logotipo oficial de SPELTA Caracas
 ├── README.md           # Documentación técnica del proyecto
