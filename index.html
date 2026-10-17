@@ -211,6 +211,9 @@
                 <select class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut transition-all" id="payment-method">
                   <option value="Pago Móvil">Pago Móvil</option>
                   <option value="Zinli">Zinli</option>
+                  <option value="PayPal">PayPal</option>
+                  <option value="Payoneer">Payoneer</option>
+                  <option value="Binance">Binance</option>
                   <option value="Efectivo USD">Efectivo USD</option>
                 </select>
               </div>
@@ -224,7 +227,7 @@
             </div>
 
             <!-- Botón WhatsApp -->
-            <button class="w-full py-3.5 px-4 rounded-xl bg-whatsapp-action hover:bg-whatsapp-action-hover text-white flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99] text-xs font-bold" id="submit-btn" onclick="processOrder()">
+            <button class="w-full py-3.5 px-4 rounded-xl bg-whatsapp-action hover:bg-whatsapp-action-hover text-white flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99] text-xs font-bold" id="submit-btn" onclick="initiateOrderProcess()">
               <span class="material-symbols-outlined text-[18px]">chat</span>
               <span>Enviar Pedido por WhatsApp</span>
             </button>
@@ -237,13 +240,60 @@
   </main>
 
   <!-- FOOTER -->
-    <footer class="bg-oven-charcoal text-gray-400 py-6 text-center text-xs border-t border-toasted-crust-border/20 mt-12">
-        <div class="max-w-7xl mx-auto px-4 md:px-8">
-            <p>SPELTA Caracas — Panadería Artesanal &copy; 2026</p>
-        </div>
-    </footer>
+  <footer class="bg-oven-charcoal text-gray-400 py-6 text-center text-xs border-t border-toasted-crust-border/20 mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <p>SPELTA Caracas — Panadería Artesanal &copy; 2026</p>
+    </div>
+  </footer>
 
-  <!-- Modal de Confirmación -->
+  <!-- MODAL DE CONSOLIDACIÓN DE PAGO (SIMPLIFICADO) -->
+  <div class="fixed inset-0 z-50 bg-oven-charcoal/60 backdrop-blur-xs hidden items-center justify-center p-4" id="payment-modal">
+    <div class="bg-surface rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4 relative border border-toasted-crust-border max-h-[90vh] overflow-y-auto">
+      <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="closePaymentModal()">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full bg-golden-wheat/50 flex items-center justify-center text-warm-chestnut">
+          <span class="material-symbols-outlined text-[22px]">verified_user</span>
+        </div>
+        <div>
+          <h3 class="font-headline text-lg font-bold text-oven-charcoal">Consolidar Pago Digital</h3>
+          <p class="text-[11px] text-on-surface-variant">Ingresa los datos de tu transferencia para validar</p>
+        </div>
+      </div>
+
+      <!-- Datos de Referencia Dinámicos según método -->
+      <div id="payment-instructions-box" class="p-3.5 rounded-xl bg-surface-container-low text-xs border border-toasted-crust-border/60 space-y-1">
+        <!-- Rellenado por JS -->
+      </div>
+
+      <div class="space-y-3 pt-1">
+        <div>
+          <label class="text-[11px] font-bold text-oven-charcoal block mb-1">Número de Referencia / ID de Transacción *</label>
+          <input type="text" id="pay-reference-code" placeholder="Ej. 123456 o ID de Binance/Zinli" class="w-full px-3 py-2 rounded-xl bg-surface-container-low text-oven-charcoal border border-toasted-crust-border text-xs focus:outline-none focus:border-warm-chestnut font-mono" required>
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-oven-charcoal block mb-1">Captura de Pantalla del Comprobante *</label>
+          <input type="file" id="pay-screenshot-file" accept="image/*" class="w-full text-xs text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-surface-container file:text-oven-charcoal hover:file:bg-surface-container-high cursor-pointer border border-toasted-crust-border/60 rounded-xl bg-surface-container-low p-1" required>
+          <p class="text-[10px] text-outline mt-1">Sube la foto del comprobante legible para acelerar la verificación.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2 pt-3">
+        <button id="confirm-payment-btn" onclick="submitOrderWithPaymentProof()" class="w-full py-3 px-4 rounded-xl bg-whatsapp-action hover:bg-whatsapp-action-hover text-white flex items-center justify-center gap-2 text-xs font-bold shadow-md transition-all">
+          <span class="material-symbols-outlined text-[18px]">check_circle</span>
+          <span>Registrar y Abrir WhatsApp</span>
+        </button>
+        <button class="w-full py-1 text-xs text-outline hover:text-oven-charcoal" onclick="closePaymentModal()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmación Exitosa -->
   <div class="fixed inset-0 z-50 bg-oven-charcoal/60 backdrop-blur-xs hidden items-center justify-center p-4" id="success-modal">
     <div class="bg-surface rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4 relative border border-toasted-crust-border">
       <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="finishOrder()">
@@ -255,7 +305,7 @@
       </div>
 
       <div class="text-center">
-        <h3 class="font-headline text-xl font-bold text-oven-charcoal">✅ Pedido Recibido</h3>
+        <h3 class="font-headline text-xl font-bold text-oven-charcoal">✅ Pedido Registrado</h3>
         <p class="text-xs text-warm-chestnut">SPELTA Caracas</p>
       </div>
 
@@ -264,12 +314,12 @@
         <div class="text-lg font-bold text-oven-charcoal font-mono tracking-widest" id="success-order-id">#SP-000</div>
       </div>
 
-      <p class="text-xs text-center text-on-surface-variant">Te contactaremos para confirmar disponibilidad y entrega.</p>
+      <p class="text-xs text-center text-on-surface-variant">Tu comprobante ha sido adjuntado. Procederemos a verificar el pago en minutos.</p>
 
       <div class="flex flex-col gap-2 pt-2">
         <button id="whatsapp-confirm-btn" class="w-full py-3 px-4 rounded-xl bg-whatsapp-action hover:bg-whatsapp-action-hover text-white flex items-center justify-center gap-2 text-xs font-bold shadow-md transition-transform active:scale-95">
           <span class="material-symbols-outlined text-[18px]">send</span>
-          <span>Abrir WhatsApp</span>
+          <span>Enviar Comprobante a WhatsApp</span>
         </button>
         <button class="w-full py-1.5 text-xs text-on-surface-variant hover:text-oven-charcoal underline" onclick="finishOrder()">
           Volver al Menú
@@ -293,11 +343,9 @@
       customClosedMessage: "Recibimos pedidos de Lunes a Viernes de 8:00 AM a 4:00 PM."
     };
 
-    // Sanitización robusta contra XSS e Inyección de Fórmulas
     function sanitizeInput(str) {
       if (!str) return "";
       let clean = str.replace(/</g, "&lt;").replace(/>/g, "&gt;").trim();
-      // Neutralizar comandos de fórmulas de hojas de cálculo (=, +, -, @)
       if (/^[=+\-@\t\r]/.test(clean)) {
         clean = "'" + clean;
       }
@@ -320,6 +368,7 @@
     const cart = {};
     let currentRate = 36.50;
     let currencyPreference = 'both';
+    let pendingOrderPayload = null;
 
     function checkStoreStatus() {
       const now = new Date();
@@ -546,7 +595,7 @@
       });
     }
 
-    async function processOrder() {
+    function initiateOrderProcess() {
       if (!checkStoreStatus()) {
         alert(`Lo sentimos, la tienda está cerrada en este momento.\n\n${SCHEDULE_CONFIG.customClosedMessage}`);
         return;
@@ -557,10 +606,6 @@
 
       const itemKeys = Object.keys(cart);
       if (itemKeys.length === 0) return alert("Por favor, selecciona al menos un producto.");
-
-      const btn = document.getElementById("submit-btn");
-      btn.disabled = true;
-      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> <span>Procesando tu pedido...</span>`;
 
       const delivery = document.getElementById("delivery-method").value;
       const payment = document.getElementById("payment-method").value;
@@ -583,7 +628,7 @@
       const totalBS = (totalUSD * currentRate).toFixed(2);
       const currentDateStr = new Date().toLocaleString("es-VE");
 
-      const payload = {
+      pendingOrderPayload = {
         secretToken: APP_SECRET_TOKEN,
         date: currentDateStr,
         customerName: name,
@@ -593,8 +638,110 @@
         itemsDetail: itemsDetailArray.join(", "),
         totalUSD: totalUSD.toFixed(2),
         bcvRate: rateFormatted,
-        totalBS: totalBS
+        totalBS: totalBS,
+        orderListText: orderListText
       };
+
+      if (payment === "Efectivo USD") {
+        submitOrderDirectly(pendingOrderPayload);
+      } else {
+        setupPaymentModalInstructions(payment);
+        const modal = document.getElementById("payment-modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      }
+    }
+
+    function setupPaymentModalInstructions(paymentMethod) {
+  const box = document.getElementById("payment-instructions-box");
+  let infoText = "";
+
+  if (paymentMethod === "Pago Móvil") {
+    // Datos reales extraídos de tu QR Banesco
+    const datosPagoMovil = {
+      banco: "Banesco (0134)",
+      cedula: "V-26012479",
+      telefono: "0412-6034216",
+      qrPath: "QR Banesco.jpg" // Asegúrate de colocar esta imagen en la misma carpeta o ruta correspondiente
+    };
+
+    infoText = `
+      <div class="space-y-3">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-surface p-3 rounded-xl border border-toasted-crust-border/60">
+          <div class="space-y-1 text-xs text-center sm:text-left">
+            <span class="inline-block font-bold text-warm-chestnut uppercase text-[10px] tracking-wider">Pago Móvil Banesco</span>
+            <p class="text-oven-charcoal font-semibold"><b>Banco:</b> ${datosPagoMovil.banco}</p>
+            <p class="text-oven-charcoal font-semibold"><b>C.I.:</b> ${datosPagoMovil.cedula}</p>
+            <p class="text-oven-charcoal font-semibold"><b>Teléfono:</b> ${datosPagoMovil.telefono}</p>
+          </div>
+          <div class="shrink-0 flex flex-col items-center">
+            <img src="${datosPagoMovil.qrPath}" alt="QR Pago Móvil Banesco" class="w-32 h-auto object-contain rounded-lg border border-toasted-crust-border bg-white p-1 shadow-2xs" onerror="this.style.display='none'">
+            <span class="text-[9px] text-outline mt-1 font-semibold">Escanea con tu App</span>
+          </div>
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
+          <span>Tasa Oficial BCV: <b>${currentRate.toFixed(2)} Bs.</b></span>
+          <span class="font-bold text-sm text-warm-chestnut">Monto: ${pendingOrderPayload.totalBS} Bs.</span>
+        </div>
+      </div>
+    `;
+  } else if (paymentMethod === "Zinli") {
+    infoText = `<b>Zinli:</b> Correo / Alias de SPELTA<br>Monto a pagar: <b>$${pendingOrderPayload.totalUSD} USD</b>`;
+  } else {
+    infoText = `<b>${paymentMethod}:</b> Realiza tu pago por el monto exacto de <b>$${pendingOrderPayload.totalUSD} USD</b>`;
+  }
+
+  box.innerHTML = infoText;
+}
+
+    function closePaymentModal() {
+      const modal = document.getElementById("payment-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    async function submitOrderWithPaymentProof() {
+      const refCode = sanitizeInput(document.getElementById("pay-reference-code").value);
+      const fileInput = document.getElementById("pay-screenshot-file");
+
+      if (!refCode) {
+        alert("Por favor ingresa el número de referencia o ID de la transacción.");
+        return;
+      }
+
+      let screenshotBase64 = "";
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        try {
+          screenshotBase64 = await toBase64(file);
+        } catch (e) {
+          console.error("Error leyendo archivo:", e);
+        }
+      }
+
+      pendingOrderPayload.notes += ` [Ref: ${refCode}]`;
+      if (screenshotBase64) {
+        pendingOrderPayload.screenshot = screenshotBase64;
+      }
+
+      closePaymentModal();
+      submitOrderDirectly(pendingOrderPayload);
+    }
+
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    async function submitOrderDirectly(payload) {
+      const btn = document.getElementById("submit-btn");
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> <span>Registrando pedido...</span>`;
 
       try {
         const response = await fetch(GOOGLE_SHEETS_URL, {
@@ -610,16 +757,16 @@
           let msg = `*NUEVO PEDIDO - SPELTA CARACAS*\n`;
           msg += `*ID Pedido:* #${orderId}\n`;
           msg += `--------------------------------\n`;
-          msg += `*Cliente:* ${name}\n`;
-          msg += `*Entrega:* ${delivery}\n`;
-          msg += `*Pago:* ${payment}\n`;
-          if (notes) msg += `*Notas/Punto:* ${notes}\n`;
+          msg += `*Cliente:* ${payload.customerName}\n`;
+          msg += `*Entrega:* ${payload.deliveryMethod}\n`;
+          msg += `*Pago:* ${payload.paymentMethod}\n`;
+          msg += `*Notas/Ref:* ${payload.notes}\n`;
           msg += `--------------------------------\n`;
-          msg += `*DETALLE DEL PEDIDO:*\n${orderListText}`;
+          msg += `*DETALLE DEL PEDIDO:*\n${payload.orderListText}`;
           msg += `--------------------------------\n`;
-          msg += `*TOTAL USD:* $${totalUSD.toFixed(2)}\n`;
-          msg += `*TOTAL BS (Tasa ${rateFormatted} Bs/$):* ${totalBS} Bs.\n\n`;
-          msg += `Quedo a la espera de confirmación y datos para realizar el pago.`;
+          msg += `*TOTAL USD:* $${payload.totalUSD}\n`;
+          msg += `*TOTAL BS:* ${payload.totalBS} Bs.\n\n`;
+          msg += `Adjunto comprobante de pago para su verificación. ¡Gracias!`;
 
           const waUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`;
 
