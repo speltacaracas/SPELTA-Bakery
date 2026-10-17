@@ -657,12 +657,12 @@
   let infoText = "";
 
   if (paymentMethod === "Pago Móvil") {
-    // Datos reales extraídos de tu QR Banesco
     const datosPagoMovil = {
       banco: "Banesco (0134)",
       cedula: "V-26012479",
       telefono: "0412-6034216",
-      qrPath: "qr-banesco.jpg" // Asegúrate de colocar esta imagen en la misma carpeta o ruta correspondiente
+      // Ruta recomendada si está en la carpeta de imágenes
+      qrPath: "images/qr-banesco.jpg"
     };
 
     infoText = `
@@ -675,7 +675,7 @@
             <p class="text-oven-charcoal font-semibold"><b>Teléfono:</b> ${datosPagoMovil.telefono}</p>
           </div>
           <div class="shrink-0 flex flex-col items-center">
-            <img src="${datosPagoMovil.qrPath}" alt="QR Pago Móvil Banesco" class="w-32 h-auto object-contain rounded-lg border border-toasted-crust-border bg-white p-1 shadow-2xs" onerror="this.style.display='none'">
+            <img src="${datosPagoMovil.qrPath}" alt="QR Pago Móvil Banesco" class="w-28 h-28 object-cover rounded-lg border border-toasted-crust-border bg-white p-1 shadow-2xs">
             <span class="text-[9px] text-outline mt-1 font-semibold">Escanea con tu App</span>
           </div>
         </div>
