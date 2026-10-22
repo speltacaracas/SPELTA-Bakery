@@ -212,7 +212,6 @@
                   <option value="Pago Móvil">Pago Móvil</option>
                   <option value="Zinli">Zinli</option>
                   <option value="PayPal">PayPal</option>
-                  <option value="Payoneer">Payoneer</option>
                   <option value="Binance">Binance</option>
                   <option value="Efectivo USD">Efectivo USD</option>
                 </select>
@@ -246,7 +245,7 @@
     </div>
   </footer>
 
-  <!-- MODAL DE CONSOLIDACIÓN DE PAGO (SIMPLIFICADO) -->
+  <!-- MODAL DE CONSOLIDACIÓN DE PAGO -->
   <div class="fixed inset-0 z-50 bg-oven-charcoal/60 backdrop-blur-xs hidden items-center justify-center p-4" id="payment-modal">
     <div class="bg-surface rounded-2xl max-w-md w-full p-6 shadow-xl space-y-4 relative border border-toasted-crust-border max-h-[90vh] overflow-y-auto">
       <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high" onclick="closePaymentModal()">
@@ -334,7 +333,7 @@
     // ==========================================
     const WHATSAPP_PHONE = "584248869310"; 
     const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw12s0WqfnPMBCwbumevgK-1ad9JcFQatwjIPrBtxxqFuJBNGp__ABV30KxnUyZ7OiX3g/exec"; 
-    const APP_SECRET_TOKEN = "@Vbfsm%a23Gf02@f@05K"; // Token compartido con el backend
+    const APP_SECRET_TOKEN = "@Vbfsm%a23Gf02@f@05K"; 
 
     const SCHEDULE_CONFIG = {
       allowedDays: [1, 2, 3, 4, 5], 
@@ -366,7 +365,7 @@
     ];
 
     const cart = {};
-    let currentRate = 36.50;
+    let currentRate = 883.40;
     let currencyPreference = 'both';
     let pendingOrderPayload = null;
 
@@ -653,47 +652,79 @@
     }
 
     function setupPaymentModalInstructions(paymentMethod) {
-  const box = document.getElementById("payment-instructions-box");
-  let infoText = "";
+      const box = document.getElementById("payment-instructions-box");
+      let infoText = "";
 
-  if (paymentMethod === "Pago Móvil") {
-    const datosPagoMovil = {
-      banco: "Banesco (0134)",
-      cedula: "V-26012479",
-      telefono: "0412-6034216",
-      // Ruta recomendada si está en la carpeta de imágenes
-      qrPath: "images/qr-banesco.jpg"
-    };
+      if (paymentMethod === "Pago Móvil") {
+        const datosPagoMovil = {
+          banco: "Banesco (0134)",
+          cedula: "V-26012479",
+          telefono: "0412-6034216"
+        };
 
-    infoText = `
-      <div class="space-y-3">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-surface p-3 rounded-xl border border-toasted-crust-border/60">
-          <div class="space-y-1 text-xs text-center sm:text-left">
-            <span class="inline-block font-bold text-warm-chestnut uppercase text-[10px] tracking-wider">Pago Móvil Banesco</span>
-            <p class="text-oven-charcoal font-semibold"><b>Banco:</b> ${datosPagoMovil.banco}</p>
-            <p class="text-oven-charcoal font-semibold"><b>C.I.:</b> ${datosPagoMovil.cedula}</p>
-            <p class="text-oven-charcoal font-semibold"><b>Teléfono:</b> ${datosPagoMovil.telefono}</p>
+        infoText = `
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-surface border border-toasted-crust-border/60 space-y-1 text-xs">
+              <span class="font-bold text-warm-chestnut uppercase text-[10px] tracking-wider block">Pago Móvil Banesco</span>
+              <p class="text-oven-charcoal font-semibold"><b>Banco:</b> ${datosPagoMovil.banco}</p>
+              <p class="text-oven-charcoal font-semibold"><b>C.I.:</b> ${datosPagoMovil.cedula}</p>
+              <p class="text-oven-charcoal font-semibold"><b>Teléfono:</b> ${datosPagoMovil.telefono}</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
+              <span>Tasa Oficial BCV: <b>${currentRate.toFixed(2)} Bs.</b></span>
+              <span class="font-bold text-sm text-warm-chestnut">Monto: ${pendingOrderPayload.totalBS} Bs.</span>
+            </div>
           </div>
-          <div class="shrink-0 flex flex-col items-center">
-            <img src="${datosPagoMovil.qrPath}" alt="QR Pago Móvil Banesco" class="w-28 h-28 object-contain rounded-lg border border-toasted-crust-border bg-white p-1 shadow-2xs">
-            <span class="text-[9px] text-outline mt-1 font-semibold">Escanea con tu App</span>
+        `;
+      } else if (paymentMethod === "Zinli") {
+        infoText = `
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-surface border border-toasted-crust-border/60 space-y-1 text-xs">
+              <span class="font-bold text-warm-chestnut uppercase text-[10px] tracking-wider block">Datos de Zinli (SPELTA)</span>
+              <p class="text-oven-charcoal font-semibold"><b>Teléfono:</b> 0424-8869310</p>
+              <p class="text-[10px] text-on-surface-variant mt-1">Realiza tu transferencia al número de teléfono asociado a nuestra cuenta Zinli.</p>
+            </div>
+
+            <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
+              <span>Monto exacto a pagar:</span>
+              <span class="font-bold text-sm text-warm-chestnut">$${pendingOrderPayload.totalUSD} USD</span>
+            </div>
           </div>
-        </div>
+        `;
+      } else if (paymentMethod === "PayPal") {
+        infoText = `
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-surface border border-toasted-crust-border/60 space-y-1 text-xs">
+              <span class="font-bold text-warm-chestnut uppercase text-[10px] tracking-wider block">Datos de PayPal</span>
+              <p class="text-oven-charcoal font-semibold"><b>Correo:</b> spelta.artesanal@gmail.com</p>
+              <p class="text-[10px] text-on-surface-variant mt-1">Por favor, recuerda cubrir las comisiones de la plataforma si aplica.</p>
+            </div>
 
-        <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
-          <span>Tasa Oficial BCV: <b>${currentRate.toFixed(2)} Bs.</b></span>
-          <span class="font-bold text-sm text-warm-chestnut">Monto: ${pendingOrderPayload.totalBS} Bs.</span>
-        </div>
-      </div>
-    `;
-  } else if (paymentMethod === "Zinli") {
-    infoText = `<b>Zinli:</b> Correo / Alias de SPELTA<br>Monto a pagar: <b>$${pendingOrderPayload.totalUSD} USD</b>`;
-  } else {
-    infoText = `<b>${paymentMethod}:</b> Realiza tu pago por el monto exacto de <b>$${pendingOrderPayload.totalUSD} USD</b>`;
-  }
+            <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
+              <span>Monto exacto a pagar:</span>
+              <span class="font-bold text-sm text-warm-chestnut">$${pendingOrderPayload.totalUSD} USD</span>
+            </div>
+          </div>
+        `;
+      } else if (paymentMethod === "Binance") {
+        infoText = `
+          <div class="space-y-3">
+            <div class="p-3 rounded-xl bg-surface border border-toasted-crust-border/60 space-y-1 text-xs">
+              <span class="font-bold text-warm-chestnut uppercase text-[10px] tracking-wider block">Binance Pay</span>
+              <p class="text-oven-charcoal font-semibold"><b>Binance ID:</b> 81292512</p>
+            </div>
 
-  box.innerHTML = infoText;
-}
+            <div class="p-2.5 rounded-xl bg-golden-wheat/40 border border-toasted-crust-border/50 text-[11px] text-oven-charcoal flex justify-between items-center">
+              <span>Monto exacto a pagar:</span>
+              <span class="font-bold text-sm text-warm-chestnut">$${pendingOrderPayload.totalUSD} USD</span>
+            </div>
+          </div>
+        `;
+      }
+
+      box.innerHTML = infoText;
+    }
 
     function closePaymentModal() {
       const modal = document.getElementById("payment-modal");
