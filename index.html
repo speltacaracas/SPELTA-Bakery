@@ -729,10 +729,34 @@
 
     function submitOrderWithPaymentProof() {
       const refCode = sanitizeInput(document.getElementById("pay-reference-code").value);
+      const paymentMethod = pendingOrderPayload.paymentMethod;
 
       if (!refCode) {
         alert("Por favor ingresa el número de referencia o ID de la transacción.");
         return;
+      }
+
+      // Validaciones independientes de longitud de referencia por método de pago
+      if (paymentMethod === "Pago Móvil") {
+        if (refCode.length < 4) {
+          alert("Para Pago Móvil, por favor ingresa los últimos 4 dígitos de la referencia bancaria.");
+          return;
+        }
+      } else if (paymentMethod === "Binance") {
+        if (refCode.length < 8) {
+          alert("Para Binance Pay, ingresa el ID de transacción completo proporcionado por la plataforma.");
+          return;
+        }
+      } else if (paymentMethod === "Zinli") {
+        if (refCode.length < 6) {
+          alert("Para Zinli, ingresa el ID de transacción completo de tu operación.");
+          return;
+        }
+      } else if (paymentMethod === "PayPal") {
+        if (refCode.length < 6) {
+          alert("Para PayPal, ingresa el ID de transacción o comprobante válido.");
+          return;
+        }
       }
 
       pendingOrderPayload.notes += ` [Ref: ${refCode}]`;
@@ -743,8 +767,10 @@
 
     async function submitOrderDirectly(payload) {
       const btn = document.getElementById("submit-btn");
-      btn.disabled = true;
-      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> <span>Registrando pedido...</span>`;
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> <span>Registrando pedido...</span>`;
+      }
 
       try {
         const response = await fetch(GOOGLE_SHEETS_URL, {
@@ -783,14 +809,16 @@
           modal.classList.remove("hidden");
           modal.classList.add("flex");
         } else {
-          throw new Error(resData.message || "Error al procesar el pedido.");
+          alert(resData.message || "No se pudo procesar el pedido. Verifica los datos e intenta nuevamente.");
         }
       } catch (e) {
         console.error("Error al registrar pedido:", e);
-        alert("Hubo un problema al procesar tu pedido. Por favor verifica tu conexión o contáctanos directamente.");
+        alert("Hubo un problema de conexión con el servidor. Por favor verifica tu red e intenta de nuevo.");
       } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">chat</span> <span>Enviar Pedido por WhatsApp</span>`;
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<span class="material-symbols-outlined text-[18px]">chat</span> <span>Enviar Pedido por WhatsApp</span>`;
+        }
       }
     }
 
